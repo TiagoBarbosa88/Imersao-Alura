@@ -9,6 +9,9 @@ function HomePage() {
         //backgroundColor: 'red'
     };
 
+const valorDoFiltro = "Angular";
+
+
     return (
         <>
             <CSSReset />
@@ -21,7 +24,7 @@ function HomePage() {
 
                 <Menu />
                 <Header />
-                <Timeline playLists={config.playLists}>
+                <Timeline searchValue={valorDoFiltro} playLists={config.playLists}>
                     conteudo
                 </Timeline>
             </div>
@@ -79,7 +82,7 @@ function HomePage() {
     )
   }
 
-  function Timeline(props){
+  function Timeline({searchValue,...props}){
     
     const playListNames = Object.keys(props.playLists);
 
@@ -88,13 +91,15 @@ function HomePage() {
 
     return (
         <StyledTimeline>
-            {playListNames.map((playListName) => {
+            {playListNames.map((playListName)=>{
                 const videos = props.playLists[playListName];
                 return (
                     <section>
                       <h2>{playListName}</h2>
                         <div>
-                         {videos.map((video)=> {
+                         {videos.filter((video)=>{
+                            return video.title.includes(searchValue)
+                         }).map((video)=> {
                     return (
                       <a href={video.url}>
                          <img src={video.thumb}/>
